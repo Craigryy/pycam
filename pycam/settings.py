@@ -199,3 +199,4 @@ LOGIN_REDIRECT_URL = '/home/'  # After login, go to the homepage
 LOGOUT_REDIRECT_URL = '/'  # After logout, go back to the login page
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True  # Log out immediately when accessing the logout URL
+SOCIALACCOUNT_LOGIN_ON_GET = True  # Automatically log in users without showing the social login page

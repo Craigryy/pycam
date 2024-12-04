@@ -25,10 +25,11 @@ def home_css_view(request):
     return render(request, 'welcome_page_img.css.html', content_type='text/css')
 
 def custom_404(request, exception):
-    return render(request, 'template/404.html', status=404)
+    return render(request, '404.html', status=404)
+
 
 def custom_500(request):
-    return render(request, 'template/500.html', status=500)
+    return render(request, '500.html', status=500)
 
 # class HomeView(LoginRequiredMixin, TemplateView):
 #     """Authenticated home view."""

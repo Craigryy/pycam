@@ -22,10 +22,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from editor import views
 from django.conf.urls import handler404, handler500
+from editor.views import custom_404,custom_500
+
+
 
 
 # Custom error handlers
-handler404 = 'editor.views.custom_404'
+handler404 = custom_404
 handler500 = 'editor.views.custom_500'
 
 
@@ -33,5 +36,7 @@ urlpatterns = [
     path('', include('editor.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('i5xyija/',custom_404),
+    path('t5tiofaakzx/',custom_500),
 
 ]
