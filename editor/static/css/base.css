@@ -1,0 +1,151 @@
+:root {
+    --header-text: #FFFFFF;
+    --dim-yellow: #9B781B;
+    --blog-hover: #352903;
+    --dim-white: #EDEDED;
+    --super-grey: #6c757d;
+    --blog-yellow: #ffc107;
+    --blog-black: #000000;
+    --blog-inactive: #4c5e68;
+    --blog-category: #030d19;
+    --blog-category-hover: #0b223f;
+  }
+
+/* Apply border-box model globally */
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* Then override to ensure that all elements use border-box */
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+body {
+    height: 100%;
+    margin: 0 auto;
+    color: #231f20;
+    background-color: #f0f4f8; 
+
+html, body {
+    overflow-x: hidden;
+  }
+
+button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    color: #FFFFFF !important;
+    background-color: gold;
+    cursor: pointer;
+}
+
+/* Apply the font to your header navigation */
+.header-navigation {
+    font-family: 'Roboto Condensed', sans-serif; /* Use the custom font-family */
+    font-weight: 400; /* Regular weight */
+    font-size: 16px; /* Font size of 16 pixels */
+    color: var(--header-text);
+  }
+  
+  .header {
+    background-color: black;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+  
+  .size {
+    padding: 14px 35px;
+    width: 175px;
+    border-radius: 10px;
+  }
+  
+  
+  nav ul {
+    gap: 5px;
+  }
+  
+  nav ul li .nav-col {
+    text-decoration: none;
+    color: #FFFFFF;
+  }
+
+  .navbar-toggler:hover .navbar-toggler-icon {
+      background-color: var(--blog-inactive);
+  }
+
+  .navbar-toggler:hover .navbar-toggler-icon::before,
+  .navbar-toggler:hover .navbar-toggler-icon::after {
+      background-color: var(--blog-inactive);
+  }
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+}
+  
+  .navbar-toggler {
+    background-color: var(--blog-black);
+    border: 1px solid var(--blog-yellow);
+    filter: brightness(0.5);
+    margin-right: 20px;
+  }
+
+  /* Style for the hamburger icon */
+  .navbar-toggler-icon {
+    background-color: var(--blog-yellow); /* Color of the bars (you can customize) */
+    position: relative;
+    width: 30px; /* Adjust the width of the icon */
+    height: 2px; /* Adjust the thickness of the bars */
+  }
+
+  /* Create the "bars" for the hamburger icon */
+  .navbar-toggler-icon::before,
+  .navbar-toggler-icon::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--blog-yellow);
+      transition: all 0.3s ease-in-out;
+  }
+
+  /* Position the first and last bars */
+  /* Moves the first bar above the middle one */
+  .navbar-toggler-icon::before {
+      top: -4px; 
+  }
+
+  /* Moves the third bar below the middle one */
+  .navbar-toggler-icon::after {
+      top: 4px;
+  }
+
+  /* Change icon on toggle (optional) */
+  .navbar-toggler.collapsed .navbar-toggler-icon::before {
+    top: 0; /* Collapse the first bar */
+    transform: rotate(45deg); /* Rotate to form an "X" */
+  }
+
+  .navbar-toggler.collapsed .navbar-toggler-icon::after {
+    top: 0; /* Collapse the third bar */
+    transform: rotate(-45deg); /* Rotate to form an "X" */
+  }
+
+  .center-txt {
+    text-align: center;
+  }
+  
+  
+  .btn-outline-warning {
+    border-color: transparent;
+    color: #ffc107;
+  }
+  
+  

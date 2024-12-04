@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+{% load socialaccount %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+    {% comment %}
+    Delete the line below if you're just getting started and want to remove the welcome screen!
+    {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock extra_css %}
+
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="social-container text-center">
+        <h1 class="welcome-heading">{% trans "Welcome to Pycam" %}</h1>
+        <p>{% trans "Please login through any of the following links:" %}</p>
+
+        {% get_providers as socialaccount_providers %}
+        {% if socialaccount_providers %}
+            <div class="social-buttons">
+                {% for provider in socialaccount_providers %}
+                    <a href="{% provider_login_url provider.id %}" class="btn btn-social btn-{{ provider.id }}">
+                        <i class="fab fa-{{ provider.id }}"></i> {% trans "Login with" %} {{ provider.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>
+                {% blocktrans %}
+                    If you have not created an account yet, please <a href="{{ signup_url }}">sign up</a> first.
+                {% endblocktrans %}
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- {% load socialaccount %}
+
+<h1>Hello World</h1>
+
+{% if request.user.is_authenticated %}
+    <h1>Hello {{ request.user.username }}</h1>
+    <a href="{% url 'account_logout' %}">Logout</a>
+{% else %}
+    <a href="{% provider_login_url 'google' %}">Login with Google</a>
+    <a href="{% provider_login_url 'github' %}">Login with GitHub</a>
+{% endif %} -->
+
+
+

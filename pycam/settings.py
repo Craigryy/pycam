@@ -76,7 +76,7 @@ ROOT_URLCONF = 'pycam.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_DIR,'pycam','static','template')],
+        'DIRS': [os.path.join( PROJECT_DIR ,'editor','static','template')],
         'APP_DIRS': True,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -152,14 +152,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+
+
+
+
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_DIR, "static"),
+]
+
+
+# staticfiles
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STATICFILES_DIRS = (os.path.join(PROJECT_DIR, 'editor','static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
 
 AUTHENTICATION_BACKENDS = [
     # Needed to login by username in Django admin, regardless of `allauth`
@@ -169,30 +194,8 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'APP': {
-#             'client_id': 'YOUR_GOOGLE_CLIENT_ID',
-#             'secret': 'YOUR_GOOGLE_CLIENT_SECRET',
-#             'key': ''
-#         },
-#     },
-#     'github': {
-#           'APP': {
-#             'client_id': 'Iv23liy2fTBsqUcvrb8S',
-#             'secret': 'c16149df5778be7afca20bf52ceedb963e0a79c5',
-#             'key': ''
-#         }
-#         ,
-#     },
-#     'facebook': {
-#         'APP': {
-#             'client_id': 'YOUR_FACEBOOK_APP_ID',
-#             'secret': 'YOUR_FACEBOOK_APP_SECRET',
-#             'key': ''
-#         },
-#     },
-# }
-
-LOGIN_REDIRECT_URL = '/'
-ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+LOGIN_URL = '/'  # Redirect to your custom login page
+LOGIN_REDIRECT_URL = '/home/'  # After login, go to the homepage
+LOGOUT_REDIRECT_URL = '/'  # After logout, go back to the login page
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True  # Log out immediately when accessing the logout URL
