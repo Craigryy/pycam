@@ -1,0 +1,25 @@
+.footer {
+    padding: 20px;
+    background-color: #f8f9fa; /* Light background color */
+    color: #9A9A9A; /* Text color */
+    bottom: 0; /* Align to the bottom */
+    left: 0; /* Align to the left */
+    right: 0; /* Align to the right */
+    justify-content: center; 
+    align-items: center; /* Center the contents vertically*/
+    text-align: center; 
+}
+
+
+.footer .underline {
+    text-decoration: underline; /* Underline links */
+    color: inherit; /* Make link color inherit from the parent */
+}
+
+.footer a {
+    color: #007BFF; /* Link color */
+}
+
+.footer a:hover {
+    text-decoration: none; /* Remove underline on hover */
+}

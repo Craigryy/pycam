@@ -1,0 +1,136 @@
+/* Base styling for the body */
+body {
+    
+    min-height: 100vh; /* Ensure the body fills at least the full height of the viewport */
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    margin-top: 30px;
+    padding: 0;
+    background-color: #f4f4f4;
+    overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+/* Content container styling */
+.content-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px;
+    display: block;
+
+}
+.text-container {
+    width: 100%; /* Ensure it takes up full width when needed */
+    text-align: left; /* Align text to the left */
+    margin-bottom: 20px; /* Add space between text and other elements */
+}
+
+/* Heading styling for left alignment */
+.text-container h1 {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left; /* Explicitly set to align left */
+}
+
+/* Paragraph styling for left alignment */
+.text-container p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+    text-align: left; /* Explicitly set to align left */
+}
+}
+
+/* Media query for screens 715px and above */
+@media (min-width: 715px) {
+    .content-container {
+        display: flex; /* Use flexbox for side-by-side layout */
+        align-items: flex-start; /* Align items to the top */
+    }
+
+    .text-container {
+        width: 50%; /* Take up half of the container */
+        padding-right: 20px; /* Space between text and image */
+    }
+
+    .image-edgee {
+        margin-top: 40px;
+        width: 50%; /* Take up half of the container */
+        height: 50px;
+        padding-left: 20px; /* Space between text and image */
+        
+    }
+
+    .image-edgee img {
+        width: 100%;
+        height: auto;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Media query for screens smaller than 715px */
+@media (max-width: 714px) {
+    .content-container {
+        display: block; /* Stack elements vertically */
+    }
+
+    .text-container {
+        width: 100%; /* Take up the full width */
+        text-align: center; /* Center text */
+        margin-bottom: 20px; /* Add space between text and image */
+    }
+
+    .image-edgee {
+        width: 100%; /* Take up full width */
+        text-align: center; /* Center the image */
+    }
+
+    .image-edgee img {
+        width: 90%; /* Adjust image width for smaller screens */
+        margin: auto;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Text container styles */
+.text-container h1 {
+    font-size: 2.0rem;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.text-container h1 span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Paragraph styling */
+.text-container p {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+/* Button group styling */
+.button-group {
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+
+}
+
+.button {
+    padding: 15px 30px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}

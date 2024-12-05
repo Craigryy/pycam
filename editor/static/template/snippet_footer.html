@@ -1,0 +1,17 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
+<footer class="footer">
+    <p>
+        Copyright © James <span id="current-year"></span>. All Rights Reserved.
+    </p>
+    <p>
+        Designed By <a class="underline" href="https://twitter.com/kingCraigry_">Craigry</a> | Built With
+        <a class="underline" href="https://twitter.com/kingCraigry">@kingCraigry</a>
+    </p>
+</footer>
+
+<script>
+    document.getElementById("current-year").textContent = new Date().getFullYear();
+</script>

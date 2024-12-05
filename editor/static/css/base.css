@@ -9,12 +9,13 @@
     --blog-inactive: #4c5e68;
     --blog-category: #030d19;
     --blog-category-hover: #0b223f;
+    
   }
 
 /* Apply border-box model globally */
-html {
+/* html {
     box-sizing: border-box;
-}
+} */
 
 *, *:before, *:after {
     box-sizing: inherit;
@@ -27,15 +28,17 @@ html {
     box-sizing: border-box;
 }
 
-body {
+/* body {
     height: 100%;
     margin: 0 auto;
     color: #231f20;
     background-color: #f0f4f8; 
-
+    
+}
+    
 html, body {
-    overflow-x: hidden;
-  }
+  overflow-x: hidden;
+} */
 
 button {
     padding: 10px 20px;
@@ -90,7 +93,7 @@ button {
 }
   
   .navbar-toggler {
-    background-color: var(--blog-black);
+    background-color: var(--super-grey);
     border: 1px solid var(--blog-yellow);
     filter: brightness(0.5);
     margin-right: 20px;
@@ -98,7 +101,7 @@ button {
 
   /* Style for the hamburger icon */
   .navbar-toggler-icon {
-    background-color: var(--blog-yellow); /* Color of the bars (you can customize) */
+    background-color: var(--super-grey); /* Color of the bars (you can customize) */
     position: relative;
     width: 30px; /* Adjust the width of the icon */
     height: 2px; /* Adjust the thickness of the bars */
@@ -147,5 +150,3 @@ button {
     border-color: transparent;
     color: #ffc107;
   }
-  
-  

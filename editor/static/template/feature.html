@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/feature.css' %}">
+{% endblock extra_css %}
+
+{% block content %}
+{% include "snippet_header.html" %}
+
+<div class="content-container">
+    <div class="text-container">
+        <h1>
+            <span>The Online Photo</span>
+            <span>Editor Made for </span>
+            <span>Everyone</span>
+        </h1>
+        <p>Ready to make your photos look incredible? <br/>
+            You can transform your images into works of<br/>
+            art with just a few clicks.
+        </p>
+        <div class="button-group">
+            <a href="/login/" class="button button-primary">Get Started</a>
+        </div>
+    </div>
+    <div class="image-edgee">
+        <img class="image-edgee" alt="UI of BeFunky's photo editor with an image of a VW bus on the beach" 
+             src="{% static 'images/pycam.avif' %}" class="footer-icon" />
+    </div> 
+</div>
+
+
+{% include "snippet_footer.html" %}
+
+{% endblock %}

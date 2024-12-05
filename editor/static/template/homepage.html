@@ -10,3 +10,150 @@
     <a href="{% provider_login_url 'github' %}">Login with GitHub</a>
 {% endif %}
 
+
+<h2>Image Gallery</h2>
+
+<!-- List of Uploaded Images -->
+{% if images %}
+    <ul>
+        {% for image in images %}
+            <li>
+                <p>Original Image:</p>
+                <img src="{{ image.original_image.url }}" alt="Original Image" style="max-width: 400px;">
+                
+                {% if image.edited_image %}
+                    <p>Edited Image:</p>
+                    <img src="{{ image.edited_image.url }}" alt="Edited Image" style="max-width: 400px;">
+                    <p>Effect Applied: {{ image.effect_applied }}</p>
+                {% endif %}
+                
+                <!-- Delete Image Form -->
+                <form method="post" action="{% url 'delete_image' image.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete Image</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No images uploaded yet.</p>
+{% endif %}
+
+<!-- Image Upload Form -->
+<h3>Upload New Image</h3>
+<form method="post" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+    {% csrf_token %}
+    <label for="image">Upload Image</label>
+    <input type="file" name="image" id="image" required onchange="previewImage(event)">
+    <button type="submit">Upload Image</button>
+</form>
+
+<!-- Image Preview Section -->
+<h3>Preview Image</h3>
+<div id="image-preview-container">
+    <img id="image-preview" style="max-width: 400px; display:none;">
+</div>
+
+<!-- Effects Buttons -->
+<h3>Apply Effects</h3>
+<div id="effect-buttons">
+    <button type="button" onclick="applyEffect('brightness')">Brightness</button>
+    <button type="button" onclick="applyEffect('grayscale')">Grayscale</button>
+    <button type="button" onclick="applyEffect('sepia')">Sepia</button>
+    <button type="button" onclick="applyEffect('contrast')">Contrast</button>
+    <button type="button" onclick="applyEffect('blur')">Blur</button>
+    <!-- Add other effect buttons here -->
+</div>
+
+<!-- Save Edited Image Button -->
+<h3>Save Edited Image</h3>
+<button type="button" id="save-image-btn" onclick="saveEditedImage()" style="display:none;">Save Edited Image</button>
+
+<script>
+    let editedImageData = null;  // This will store the edited image in base64 format
+
+    // Preview Image after selecting file
+    function previewImage(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imagePreview = document.getElementById('image-preview');
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+
+                // Hide the save button until image is edited
+                document.getElementById('save-image-btn').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Apply the selected effect
+    function applyEffect(effect) {
+        const imagePreview = document.getElementById('image-preview');
+        switch(effect) {
+            case 'brightness':
+                imagePreview.style.filter = 'brightness(1.5)';
+                break;
+            case 'grayscale':
+                imagePreview.style.filter = 'grayscale(100%)';
+                break;
+            case 'sepia':
+                imagePreview.style.filter = 'sepia(100%)';
+                break;
+            case 'contrast':
+                imagePreview.style.filter = 'contrast(200%)';
+                break;
+            case 'blur':
+                imagePreview.style.filter = 'blur(5px)';
+                break;
+            // Add other cases for different effects
+            default:
+                imagePreview.style.filter = 'none';
+                break;
+        }
+
+        // Show the save button after applying effects
+        document.getElementById('save-image-btn').style.display = 'inline-block';
+    }
+
+    // Save the edited image (Send the image data to server)
+    function saveEditedImage() {
+        const imagePreview = document.getElementById('image-preview');
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Draw the image on the canvas to capture the edited image
+        canvas.width = imagePreview.width;
+        canvas.height = imagePreview.height;
+        ctx.drawImage(imagePreview, 0, 0, canvas.width, canvas.height);
+
+        // Convert canvas to data URL (base64 encoded image)
+        editedImageData = canvas.toDataURL();
+
+        // Create an AJAX request to send the image to the server
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        fetch("{% url 'save_edited_image' %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrfToken
+            },
+            body: JSON.stringify({ image_data: editedImageData })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Image saved successfully!");
+                // Optionally refresh the page or update the UI
+            } else {
+                alert("Failed to save the image.");
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while saving the image.");
+        });
+    }
+</script>
