@@ -117,43 +117,43 @@
         // Show the save button after applying effects
         document.getElementById('save-image-btn').style.display = 'inline-block';
     }
-
-    // Save the edited image (Send the image data to server)
     function saveEditedImage() {
-        const imagePreview = document.getElementById('image-preview');
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+    const imagePreview = document.getElementById('image-preview');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-        // Draw the image on the canvas to capture the edited image
-        canvas.width = imagePreview.width;
-        canvas.height = imagePreview.height;
-        ctx.drawImage(imagePreview, 0, 0, canvas.width, canvas.height);
+    // Draw the image on the canvas to capture the edited image
+    canvas.width = imagePreview.width;
+    canvas.height = imagePreview.height;
+    ctx.drawImage(imagePreview, 0, 0, canvas.width, canvas.height);
 
-        // Convert canvas to data URL (base64 encoded image)
-        editedImageData = canvas.toDataURL();
+    // Convert canvas to data URL (base64 encoded image)
+    const editedImageData = canvas.toDataURL();
+    console.log("Edited Image Data: ", editedImageData);  // Log the base64 image data
 
-        // Create an AJAX request to send the image to the server
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-        fetch("{% url 'save_edited_image' %}", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': csrfToken
-            },
-            body: JSON.stringify({ image_data: editedImageData })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Image saved successfully!");
-                // Optionally refresh the page or update the UI
-            } else {
-                alert("Failed to save the image.");
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("An error occurred while saving the image.");
-        });
-    }
+    // Create an AJAX request to send the image to the server
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch("{% url 'save_edited_image' %}", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ image_data: editedImageData })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Image saved successfully!");
+            // Optionally refresh the page or update the UI
+        } else {
+            alert("Failed to save the image: " + data.message);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred while saving the image.");
+    });
+}
+
 </script>

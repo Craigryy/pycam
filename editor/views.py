@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .models import ImageEdit
 from django.conf import settings
+import json  # Add this import at the top of your views.py
 
 def login(request):
     if request.user.is_authenticated:
@@ -149,39 +150,76 @@ def create_thumbnail(image, size=(100, 100)):
     # Return a ContentFile so it can be saved in the Image model
     return ContentFile(thumb_io.read(), name=f'thumbnails/{os.path.basename(image.name)}')
 
+
+
+import json
+import base64
+import os
+from django.core.files.base import ContentFile
+from django.http import JsonResponse
+from django.conf import settings
+from PIL import Image as PILImage
+from .models import ImageEdit  # Make sure to import the ImageEdit model
+
 def save_edited_image(request):
-    if request.method == "POST" and request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        image_data = request.POST.get('image_data')
-        if image_data:
-            # Extract the image content from the base64 data
-            image_data = image_data.split(';base64,')[1]
+    if request.method == "POST":
+        try:
+            # Ensure the user is authenticated
+            if not request.user.is_authenticated:
+                return JsonResponse({'success': False, 'message': 'User is not authenticated.'})
+
+            # Load the JSON data from the request body
+            data = json.loads(request.body)  # Parse the incoming JSON
+            image_data = data.get('image_data')
+
+            # Check if the image data is None or empty
+            if not image_data:
+                return JsonResponse({'success': False, 'message': 'No image data received.'})
+
+            # Log the received image data (for debugging purposes)
+            print("Received image data:", image_data[:100])  # Print the first 100 characters
+
+            # Decode the base64 image data
+            image_data = image_data.split(';base64,')[1]  # Remove the prefix
             decoded_image = base64.b64decode(image_data)
 
-            # Save the image as a new file
-            file_name = 'edited_image.png'
-            file_path = os.path.join(settings.MEDIA_ROOT, 'edited', file_name)
-            with open(file_path, 'wb') as f:
+            # Save the image in the 'edited_images' folder (full-sized image)
+            file_name = 'edited_image.png'  # You can customize the file name
+            edited_image_path = os.path.join(settings.MEDIA_ROOT, 'edited_images', file_name)
+
+            # Ensure the 'edited_images' directory exists
+            os.makedirs(os.path.dirname(edited_image_path), exist_ok=True)
+
+            with open(edited_image_path, 'wb') as f:
                 f.write(decoded_image)
 
-            # Create the thumbnail image
-            image_file = ContentFile(decoded_image, name=file_name)
-            thumbnail = create_thumbnail(image_file)
+            # Create the thumbnail and save it in the 'thumbnails' folder
+            thumbnail = create_thumbnail(ContentFile(decoded_image, name=file_name))
 
-            # Save the image and thumbnail in the ImageEdit model
-            new_image = ImageEdit(
-                edited_image=image_file,
-                effect_applied="custom_effect",  # You can set the effect name here
-            )
-            new_image.save()
-
-            # Save the thumbnail to a model if needed (optional)
+            # Save the thumbnail in the 'thumbnails' folder
             thumbnail_file_name = f'thumbnail_{file_name}'
             thumbnail_path = os.path.join(settings.MEDIA_ROOT, 'thumbnails', thumbnail_file_name)
+
+            # Ensure the 'thumbnails' directory exists
+            os.makedirs(os.path.dirname(thumbnail_path), exist_ok=True)
+
             with open(thumbnail_path, 'wb') as thumb_file:
                 thumb_file.write(thumbnail.read())
 
-            return JsonResponse({'success': True, 'message': 'Image and Thumbnail saved successfully.'})
+            # Save the image edit information to the ImageEdit model
+            new_image = ImageEdit(
+                user=request.user,  # Set the user to the currently logged-in user
+                original_image=ContentFile(decoded_image, name=file_name),
+                edited_image=ContentFile(decoded_image, name=file_name),  # You can store the edited image here
+                effect_applied="Custom Effect",  # Add your actual effect here
+            )
+            new_image.save()
 
-        return JsonResponse({'success': False, 'message': 'No image data received.'})
+            return JsonResponse({'success': True, 'message': 'Image and thumbnail saved successfully.'})
+
+        except Exception as e:
+            # Log the error and send a response with details
+            print("Error saving image:", str(e))
+            return JsonResponse({'success': False, 'message': f'Error: {str(e)}'})
 
     return JsonResponse({'success': False, 'message': 'Invalid request.'})
