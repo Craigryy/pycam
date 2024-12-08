@@ -21,8 +21,8 @@
 
 ## 🛠️ Technologies Used  
 - **Backend**: Django, PostgreSQL  
-- **Frontend**: React.js  
-- **Authentication**: Social media login integration (Facebook, Google)  
+- **Frontend**: Html , css , tailwind css 
+- **Authentication**: Social media login integration (Facebook, Github, Google)  
 - **Image Processing**: Pillow library for advanced editing features  
 - **AJAX**: For real-time updates without page reloads  
 - **Containerization**: Dockerized setup for smooth deployment  
